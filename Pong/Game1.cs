@@ -48,11 +48,11 @@ public class Game1 : Game
         spriteBatch = new SpriteBatch(GraphicsDevice);
         spriteFont = Content.Load<SpriteFont>("fontStandard");
         
-        ball.LoadContent(Content);
+        
         screen = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         //screen.X en screen.Y kan je gebruiken om de breedte en de hoogte van het scherm te krijgen.
         //Kan handig zijn om bijvoorbeeld de paddles helemaal links en rechts op het scherm te tekenen,
-        //of om het balletje in het midden van het scherm te tekenen.
+        //of om het balletje in het midden van het scherm te laten starten.
     }
 
     protected override void Update(GameTime gameTime)
@@ -68,6 +68,7 @@ public class Game1 : Game
         currentKeyboardState = Keyboard.GetState();
         currentMouseState = Mouse.GetState();
         
+        
         //Een switch case statement is een fancy if statementstructuur.
         switch (CurrentGameState)
         {
@@ -80,14 +81,10 @@ public class Game1 : Game
                 }
                 break;
             case GameState.Playing:
-                foreach (var obj in objectList)
-                {
-                    obj.Update(gameTime);
-                }
                 //Zet hier je update logica voor wanneer de speler aan het spelen is.
                 break;
             default:
-                //Als CurrentGameState niet Startscreen en niet Playing is, dan krijg je een error.
+                //Als CurrentGameState niet Startscreen en niet Playing is, dan krijg je deze error.
                 throw new ArgumentOutOfRangeException();
         }
         
@@ -107,10 +104,6 @@ public class Game1 : Game
                 spriteBatch.DrawString(spriteFont, "click S To Start", new Vector2(30, 160), Color.Black);
                 break;
             case GameState.Playing:
-                foreach (var obj in objectList)
-                {
-                    obj.Draw(spriteBatch);
-                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
