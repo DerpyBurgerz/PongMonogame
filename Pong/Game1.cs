@@ -25,7 +25,7 @@ public class Game1 : Game
     }
     private GameState CurrentGameState;
 
-    private List<Object> objectList;
+    private List<Object> objectList = new List<Object>();
     public Game1()
     {
         CurrentGameState = GameState.StartScreen;
@@ -37,6 +37,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         ball = new Ball();
+        objectList.Add(ball);
         //Zet hier alle Initialize stuff.
         base.Initialize();
     }
@@ -46,8 +47,8 @@ public class Game1 : Game
         //Laad hier alle files in.
         spriteBatch = new SpriteBatch(GraphicsDevice);
         spriteFont = Content.Load<SpriteFont>("fontStandard");
-        Ball.LoadContent(Content);
         
+        ball.LoadContent(Content);
         screen = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         //screen.X en screen.Y kan je gebruiken om de breedte en de hoogte van het scherm te krijgen.
         //Kan handig zijn om bijvoorbeeld de paddles helemaal links en rechts op het scherm te tekenen,

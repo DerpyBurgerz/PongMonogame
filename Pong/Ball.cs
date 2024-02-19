@@ -8,21 +8,18 @@ public class Ball : Object
 {
     public Ball()
     {
-        //Dit is de constructor
+        position = new Vector2(50, 50);//random getallen.
     }
     
-    public static void LoadContent(ContentManager content)
+    public override void LoadContent(ContentManager content)
     {
-        sprite = content.Load<Texture2D>("PaddleBlue");
+        sprite = content.Load<Texture2D>("avgBallSmall");
     }
 
     public override void Update(GameTime gameTime)
     {
         //Update stuff
     }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        //Draw stuff
-    }
+    
+    //De ball kan de Update method gebruiken uit Object.cs Er hoeft dus niks overridden te worden om de ball te tekenen.
 }

@@ -1,10 +1,16 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGameWindowsDesktopApplication1;
 
 public class Paddle : Object
 {
+    public override void LoadContent(ContentManager content)
+    {
+        
+    }
+
     public override void Update(GameTime gameTime)
     {
         
