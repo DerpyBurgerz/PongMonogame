@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,6 +15,8 @@ public class Game1 : Game
     public static Vector2 screen;
 
     private Ball ball;
+    private Texture2D ballSprite;
+    private Texture2D paddleSprite;
     
     MouseState currentMouseState, PreviousMouseState;
     KeyboardState currentKeyboardState, previousKeyboardState;
@@ -25,7 +28,6 @@ public class Game1 : Game
     }
     private GameState CurrentGameState;
 
-    private List<Object> objectList = new List<Object>();
     public Game1()
     {
         CurrentGameState = GameState.StartScreen;
@@ -36,18 +38,18 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        ball = new Ball();
-        objectList.Add(ball);
-        //Zet hier alle Initialize stuff.
+        ball = new Ball(new Vector2(400, 200), new Vector2(1, 0));
+        
         base.Initialize();
     }
-
+    
     protected override void LoadContent()
     {
         //Laad hier alle files in.
         spriteBatch = new SpriteBatch(GraphicsDevice);
         spriteFont = Content.Load<SpriteFont>("fontStandard");
-        
+        ballSprite = Content.Load<Texture2D>("avgBallSMall");
+        paddleSprite = Content.Load<Texture2D>("paddleBlue");
         
         screen = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         //screen.X en screen.Y kan je gebruiken om de breedte en de hoogte van het scherm te krijgen.
@@ -81,6 +83,7 @@ public class Game1 : Game
                 }
                 break;
             case GameState.Playing:
+                ball.UpdateBall(screen, new Vector2(ballSprite.Width, ballSprite.Height));
                 //Zet hier je update logica voor wanneer de speler aan het spelen is.
                 break;
             default:
@@ -99,16 +102,16 @@ public class Game1 : Game
         spriteBatch.Begin();
         switch (CurrentGameState)
         {
-
             case GameState.StartScreen:
                 spriteBatch.DrawString(spriteFont, "click S To Start", new Vector2(30, 160), Color.Black);
                 break;
             case GameState.Playing:
+                ball.DrawBall(spriteBatch, ballSprite);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
         spriteBatch.End();
         base.Draw(gameTime);
     }

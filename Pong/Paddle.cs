@@ -4,6 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGameWindowsDesktopApplication1;
 
-public class Paddle : Object
+public class Paddle
 {
+    public Paddle()
+    {
+        // constructor
+    }
+    
 }
