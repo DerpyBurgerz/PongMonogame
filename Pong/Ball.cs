@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms.VisualStyles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,6 @@ public class Ball
 
     private Vector2 speed;
     
-
     public void UpdateBall(Vector2 screen, Vector2 ballSize)
     {
         position += speed;
@@ -28,10 +28,22 @@ public class Ball
             speed.X *= -1;
         }
         
-        if (position.X + > screen.X)
+        if (position.X + ballSize.X > screen.X)
         {
-            position.X = screen.X;
+            position.X = screen.X - ballSize.X;
             speed.X *= -1;
+        }
+
+        if (position.Y < 0)
+        {
+            position.Y = 0;
+            speed.Y *= -1;
+        }
+
+        if (position.Y + ballSize.Y > screen.Y)
+        {
+            position.Y = screen.Y - ballSize.Y;
+            speed.Y *= -1;
         }
     }
 
