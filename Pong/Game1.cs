@@ -15,6 +15,8 @@ public class Game1 : Game
     public static Vector2 screen;
 
     private Ball ball;
+    private Paddle paddle1;
+    private Paddle paddle2;
     private Texture2D ballSprite;
     private Texture2D paddleSprite;
     
@@ -39,6 +41,8 @@ public class Game1 : Game
     protected override void Initialize()
     {
         ball = new Ball(new Vector2(400, 200), new Vector2(3, 4));
+        paddle1 = new Paddle(new Vector2(750, 200));
+        paddle2 = new Paddle(new Vector2(50, 200));
         
         base.Initialize();
     }
@@ -84,6 +88,8 @@ public class Game1 : Game
                 break;
             case GameState.Playing:
                 ball.UpdateBall(screen, new Vector2(ballSprite.Width, ballSprite.Height));
+                paddle1.MovePaddle(currentKeyboardState, Keys.Up, Keys.Down);
+                paddle2.MovePaddle(currentKeyboardState, Keys.W, Keys.S);
                 //Zet hier je update logica voor wanneer de speler aan het spelen is.
                 break;
             default:
@@ -107,6 +113,8 @@ public class Game1 : Game
                 break;
             case GameState.Playing:
                 ball.DrawBall(spriteBatch, ballSprite);
+                paddle1.DrawPaddle(spriteBatch, paddleSprite);
+                paddle2.DrawPaddle(spriteBatch, paddleSprite);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
