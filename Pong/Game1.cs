@@ -40,7 +40,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        ball = new Ball(new Vector2(400, 200), new Vector2(3, 4));
+        ball = new Ball(new Vector2(400, 200), new Vector2(5, 5));
         paddle1 = new Paddle(new Vector2(750, 200));
         paddle2 = new Paddle(new Vector2(50, 200));
         
@@ -81,15 +81,15 @@ public class Game1 : Game
             case GameState.StartScreen:
                 //Als S op dit moment is ingedrukt, en niet ingedrukt was in de vorige frame.
                 //In andere woorden, als S in deze frame geklikt is.
-                if (currentKeyboardState.IsKeyDown(Keys.S) && !previousKeyboardState.IsKeyDown(Keys.S))
+                if (currentKeyboardState.IsKeyDown(Keys.Space) && !previousKeyboardState.IsKeyDown(Keys.Space))
                 {
                     CurrentGameState = GameState.Playing;
                 }
                 break;
             case GameState.Playing:
-                ball.UpdateBall(screen, new Vector2(ballSprite.Width, ballSprite.Height));
-                paddle1.MovePaddle(currentKeyboardState, Keys.Up, Keys.Down);
-                paddle2.MovePaddle(currentKeyboardState, Keys.W, Keys.S);
+                ball.UpdateBall(new Vector2(ballSprite.Width, ballSprite.Height), paddle1, paddle2, new Vector2(paddleSprite.Width, paddleSprite.Height));
+                paddle1.MovePaddle(paddleSprite.Height, currentKeyboardState, Keys.Up, Keys.Down);
+                paddle2.MovePaddle(paddleSprite.Height, currentKeyboardState, Keys.W, Keys.S);
                 //Zet hier je update logica voor wanneer de speler aan het spelen is.
                 break;
             default:
@@ -109,7 +109,7 @@ public class Game1 : Game
         switch (CurrentGameState)
         {
             case GameState.StartScreen:
-                spriteBatch.DrawString(spriteFont, "click S To Start", new Vector2(30, 160), Color.Black);
+                spriteBatch.DrawString(spriteFont, "Press Space To Start", new Vector2(30, 160), Color.Black);
                 break;
             case GameState.Playing:
                 ball.DrawBall(spriteBatch, ballSprite);
