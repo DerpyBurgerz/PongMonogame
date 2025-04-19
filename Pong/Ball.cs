@@ -24,9 +24,10 @@ public class Ball
 
     private Vector2 speed;
     
-    public void UpdateBall(Vector2 ballSize, Paddle paddle1, Paddle paddle2, Vector2 paddleSize)
+    public void UpdateBall(Vector2 ballSize, Paddle paddle1, Paddle paddle2)
     {
         Vector2 screen = Game1.screen;
+        Vector2 paddleSize = paddle1.Size;
         position += speed;
 
         if (position.X < 0)

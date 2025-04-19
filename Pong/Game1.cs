@@ -11,14 +11,13 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
-    SpriteFont spriteFont;
+    public static SpriteFont spriteFont;
     public static Vector2 screen;
 
     private Ball ball;
-    private Paddle paddle1;
-    private Paddle paddle2;
+    private Player player1;
+    private Player player2;
     private Texture2D ballSprite;
-    private Texture2D paddleSprite;
     
     MouseState currentMouseState, PreviousMouseState;
     KeyboardState currentKeyboardState, previousKeyboardState;
@@ -41,9 +40,10 @@ public class Game1 : Game
     protected override void Initialize()
     {
         ball = new Ball(new Vector2(400, 200), new Vector2(5, 5));
-        paddle1 = new Paddle(new Vector2(750, 200));
-        paddle2 = new Paddle(new Vector2(50, 200));
-        
+
+        player1 = new Player(0, new Vector2(50, 150), Keys.W, Keys.S);
+        player2 = new Player(0, new Vector2(750, 150), Keys.Up, Keys.Down);
+
         base.Initialize();
     }
     
@@ -53,7 +53,7 @@ public class Game1 : Game
         spriteBatch = new SpriteBatch(GraphicsDevice);
         spriteFont = Content.Load<SpriteFont>("fontStandard");
         ballSprite = Content.Load<Texture2D>("avgBallSMall");
-        paddleSprite = Content.Load<Texture2D>("paddleBlue");
+        Paddle.sprite = Content.Load<Texture2D>("paddleBlue");
         
         screen = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         //screen.X en screen.Y kan je gebruiken om de breedte en de hoogte van het scherm te krijgen.
@@ -87,9 +87,10 @@ public class Game1 : Game
                 }
                 break;
             case GameState.Playing:
-                ball.UpdateBall(new Vector2(ballSprite.Width, ballSprite.Height), paddle1, paddle2, new Vector2(paddleSprite.Width, paddleSprite.Height));
-                paddle1.MovePaddle(paddleSprite.Height, currentKeyboardState, Keys.Up, Keys.Down);
-                paddle2.MovePaddle(paddleSprite.Height, currentKeyboardState, Keys.W, Keys.S);
+                ball.UpdateBall(new Vector2(ballSprite.Width, ballSprite.Height), player1.paddle, player2.paddle);
+                player1.UpdatePlayer(currentKeyboardState);
+                player2.UpdatePlayer(currentKeyboardState);
+
                 //Zet hier je update logica voor wanneer de speler aan het spelen is.
                 break;
             default:
@@ -113,8 +114,8 @@ public class Game1 : Game
                 break;
             case GameState.Playing:
                 ball.DrawBall(spriteBatch, ballSprite);
-                paddle1.DrawPaddle(spriteBatch, paddleSprite);
-                paddle2.DrawPaddle(spriteBatch, paddleSprite);
+                player1.DrawPlayer(spriteBatch, new Vector2(50, 50));
+                player2.DrawPlayer(spriteBatch, new Vector2(740, 50));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
