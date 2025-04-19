@@ -15,14 +15,18 @@ namespace MonoGameWindowsDesktopApplication1;
 
 public class Ball
 {
+    private Vector2 startPosition;
     private Vector2 position;
+    private Vector2 startSpeed;
+    private Vector2 speed;
+
     public Ball(Vector2 startPosition, Vector2 startSpeed)
     {
+        this.startPosition = startPosition;
         position = startPosition;
+        this.startSpeed = startSpeed;
         speed = startSpeed;
     }
-
-    private Vector2 speed;
     
     public void UpdateBall(Vector2 ballSize, Paddle paddle1, Paddle paddle2)
     {
@@ -32,14 +36,18 @@ public class Ball
 
         if (position.X < 0)
         {
-            position.X = 0;
-            speed.X *= -1;
+            //position.X = 0;
+            //speed.X *= -1;
+            position = startPosition;
+            speed = startSpeed;
         }
 
         if (position.X + ballSize.X > screen.X)
         {
-            position.X = screen.X - ballSize.X;
-            speed.X *= -1;
+            //position.X = screen.X - ballSize.X;
+            //speed.X *= -1;
+            position = startPosition;
+            speed = startSpeed;
         }
 
         if (position.Y < 0)

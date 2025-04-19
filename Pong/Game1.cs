@@ -39,7 +39,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        ball = new Ball(new Vector2(400, 200), new Vector2(5, 5));
+        ball = new Ball(new Vector2(400, 200), new Vector2(5, 0));
 
         player1 = new Player(0, new Vector2(50, 150), Keys.W, Keys.S);
         player2 = new Player(0, new Vector2(750, 150), Keys.Up, Keys.Down);
