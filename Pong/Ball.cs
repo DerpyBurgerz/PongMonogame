@@ -19,6 +19,8 @@ public class Ball
     private Vector2 position;
     private Vector2 startSpeed;
     private Vector2 speed;
+    public static Texture2D sprite;
+    public Vector2 Size => new(sprite.Width, sprite.Height);
 
     public Ball(Vector2 startPosition, Vector2 startSpeed)
     {
@@ -28,8 +30,20 @@ public class Ball
         speed = startSpeed;
     }
     
-    public void UpdateBall(Vector2 ballSize, Paddle paddle1, Paddle paddle2)
+    public void ResetBall() 
     {
+        // regel ooit wachttijd
+        GameTime resetTime = new GameTime();
+        position = startPosition;
+        speed = new Vector2(0, 0);
+        speed = startSpeed;
+        
+    }
+    public void UpdateBall(Player player1, Player player2, Game1 game)
+    {
+        Paddle paddle1 = player1.paddle;
+        Paddle paddle2 = player2.paddle;
+
         Vector2 screen = Game1.screen;
         Vector2 paddleSize = paddle1.Size;
         position += speed;
@@ -38,16 +52,14 @@ public class Ball
         {
             //position.X = 0;
             //speed.X *= -1;
-            position = startPosition;
-            speed = startSpeed;
+            game.EndRound("Player 2");
         }
 
-        if (position.X + ballSize.X > screen.X)
+        if (position.X + Size.X > screen.X)
         {
             //position.X = screen.X - ballSize.X;
             //speed.X *= -1;
-            position = startPosition;
-            speed = startSpeed;
+            game.EndRound("Player 1");
         }
 
         if (position.Y < 0)
@@ -56,9 +68,9 @@ public class Ball
             speed.Y *= -1;
         }
 
-        if (position.Y + ballSize.Y > screen.Y)
+        if (position.Y + Size.Y > screen.Y)
         {
-            position.Y = screen.Y - ballSize.Y;
+            position.Y = screen.Y - Size.Y;
             speed.Y *= -1;
         }
 
@@ -68,20 +80,20 @@ public class Ball
         void PaddleCollision(Paddle paddle)
         {
             Vector2 paddleDistance = paddle.position - position;
-            if (paddleDistance.X < ballSize.X &&
+            if (paddleDistance.X < Size.X &&
                 paddleDistance.X > -paddleSize.X &&
-                paddleDistance.Y < ballSize.Y &&
+                paddleDistance.Y < Size.Y &&
                 paddleDistance.Y > -paddleSize.Y)
             {
-                float topIntersection = ballSize.Y - paddleDistance.Y;
+                float topIntersection = Size.Y - paddleDistance.Y;
                 float bottomIntersection = paddleSize.Y + paddleDistance.Y;
-                float leftIntersection = ballSize.X - paddleDistance.X;
+                float leftIntersection = Size.X - paddleDistance.X;
                 float rightIntersection = paddleSize.X + paddleDistance.X;
 
                 float smallestIntersection = new float[4] { topIntersection, bottomIntersection, leftIntersection, rightIntersection }.Min();
                 if (smallestIntersection == topIntersection)
                 {
-                    position.Y = paddle.position.Y - ballSize.Y;
+                    position.Y = paddle.position.Y - Size.Y;
                     speed.Y *= -1;
                 }
                 if (smallestIntersection == bottomIntersection)
@@ -91,7 +103,7 @@ public class Ball
                 }
                 if (smallestIntersection == leftIntersection)
                 {
-                    position.X = paddle.position.X - ballSize.X;
+                    position.X = paddle.position.X - Size.X;
                     speed.X *= -1;
                     speed.Y = YSpeed();
                 }
@@ -108,7 +120,7 @@ public class Ball
             float YSpeed() 
             {
                 float maxSpin = 4;
-                float neutralDistance = 0.5f * (ballSize.Y - paddleSize.Y);
+                float neutralDistance = 0.5f * (Size.Y - paddleSize.Y);
                 float a = -maxSpin/(neutralDistance + paddleSize.Y);
                 float b = -a * neutralDistance;
                 return (float) (a * paddleDistance.Y + b); 

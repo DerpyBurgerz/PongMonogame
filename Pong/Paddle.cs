@@ -8,19 +8,22 @@ namespace MonoGameWindowsDesktopApplication1;
 
 public class Paddle
 {
+    public Vector2 startPosition;
     public Vector2 position;
     public Keys upKey, downKey;
     public static Texture2D sprite;
-    public Vector2 Size => new (Paddle.sprite.Width, Paddle.sprite.Height);
+    public Vector2 Size => new (sprite.Width, sprite.Height);
 
     public Paddle(Vector2 startPosition, Keys upKey, Keys downKey)
     {
         // constructor
+        this.startPosition = startPosition;
         position = startPosition;
         this.upKey = upKey;
         this.downKey = downKey;
     }
-    
+
+    public void ResetPaddle() { position = startPosition; }
     public void MovePaddle(KeyboardState keyboardState)
     {
         Vector2 screen = Game1.screen;

@@ -18,14 +18,13 @@ public class Player
         paddle = new(startPosition, upKey, downKey);
     }
 
+    public void UpdateScore()
+    {
+        Score += 1;
+    }
     public void UpdatePlayer(KeyboardState currentKeyboardState)
     {
         paddle.MovePaddle(currentKeyboardState);
-
-        void UpdateScore()
-        {
-
-        }
     }
     public void DrawPlayer(SpriteBatch spriteBatch, Vector2 scorePosition)
     {
