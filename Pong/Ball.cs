@@ -119,7 +119,7 @@ public class Ball
 
             float YSpeed() 
             {
-                float maxSpin = 4;
+                float maxSpin = 6;
                 float neutralDistance = 0.5f * (Size.Y - paddleSize.Y);
                 float a = -maxSpin/(neutralDistance + paddleSize.Y);
                 float b = -a * neutralDistance;
